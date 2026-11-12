@@ -189,6 +189,9 @@
   font-weight: 500;
   transition: background-color var(--dur-fast), color var(--dur-fast);
 }
+/* Company / Careers / Media and their submenu items: JetBrains Mono */
+.nav-trigger { font-family: var(--font-mono); font-size: 0.875rem; font-weight: 500; font-stretch: normal; letter-spacing: 0; }
+.dropdown-link { font-family: var(--font-mono); font-size: 0.875rem; font-weight: 500; }
 .dropdown-link .idx {
   font-family: var(--font-mono);
   font-size: var(--fs-label);

@@ -189,6 +189,9 @@
   font-weight: 500;
   transition: background-color var(--dur-fast), color var(--dur-fast);
 }
+/* Company / Careers / Media and their submenu items: Michroma */
+.nav-trigger { font-family: var(--font-tech); font-size: 0.75rem; font-weight: 400; font-stretch: normal; letter-spacing: 0.04em; }
+.dropdown-link { font-family: var(--font-tech); font-size: 0.8125rem; font-weight: 400; letter-spacing: 0.03em; }
 .dropdown-link .idx {
   font-family: var(--font-mono);
   font-size: var(--fs-label);
