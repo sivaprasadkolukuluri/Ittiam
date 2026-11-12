@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ittiam | The engineers your engineers rely on</title>
+  <meta name="description" content="For 25 years, Ittiam has made compute-intensive media and AI run inside the constraints of real devices: video, audio, edge AI, XR, security and automotive.">
+  <meta name="theme-color" content="#04061A">
+  <link rel="icon" href="assets/img/ittiam-logo.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=Michroma&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/hero.css">
+</head>
+<body>
+  <!-- Icon sprite: UI icons (Lucide-style) + custom vertical glyphs -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h11"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6.5" y="5" width="3.6" height="14" rx="1"/><rect x="13.9" y="5" width="3.6" height="14" rx="1"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a.8.8 0 0 0 1.2.7l10.2-6.5a.8.8 0 0 0 0-1.4L9.2 4.8A.8.8 0 0 0 8 5.5z"/></symbol>
+
+    <symbol id="g-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M10 9.1v5.8l4.8-2.9z" fill="currentColor"/></symbol>
+    <symbol id="g-audio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M3.5 10.5v3M7.5 7v10M12 3.5v17M16.5 7.5v9M20.5 10v4"/></symbol>
+    <symbol id="g-edgeai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/><rect x="10" y="10" width="4" height="4" rx=".6" fill="currentColor" stroke="none"/><path d="M10 2.5v4M14 2.5v4M10 17.5v4M14 17.5v4M2.5 10h4M2.5 14h4M17.5 10h4M17.5 14h4"/></symbol>
+    <symbol id="g-xr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="3.8" ry="9"/><ellipse cx="12" cy="12" rx="9" ry="3.2"/></symbol>
+    <symbol id="g-security" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.8 19.5 6v5.6c0 4.5-3.1 8.2-7.5 9.6-4.4-1.4-7.5-5.1-7.5-9.6V6z"/><circle cx="12" cy="11.5" r="2.7" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="g-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10.2 3 5 21M13.8 3 19 21M12 6.5v2.2M12 11.5v2.8M12 17.2V21"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- =====================================================================
+       HEADER
+       ===================================================================== -->
+  <header class="site-header" data-header>
+    <div class="container header-bar">
+      <a class="brand" href="./" aria-label="Ittiam home">
+        <img src="assets/img/ittiam-logo.svg" alt="Ittiam" width="86" height="28">
+      </a>
+
+      <nav class="primary-nav" aria-label="Primary" data-primary-nav>
+        <ul class="nav-list">
+
+          <!-- Products: six domains, always visible, each in its own colour -->
+          <li class="nav-item" data-group="Products"><a class="nav-product" href="#video" data-nav-link data-vertical="video" data-desc="Codecs, streaming, and video AI" style="--v:var(--c-video);--v-ink:var(--ink-video)">Video</a></li>
+          <li class="nav-item" data-group="Products"><a class="nav-product" href="#audio" data-nav-link data-vertical="audio" data-desc="Speech, codecs, and spatial audio" style="--v:var(--c-audio);--v-ink:var(--ink-audio)">Audio</a></li>
+          <li class="nav-item" data-group="Products"><a class="nav-product" href="#edge-ai" data-nav-link data-vertical="edgeai" data-desc="Making models run where they can’t" style="--v:var(--c-edgeai);--v-ink:var(--ink-edgeai)">Edge AI</a></li>
+          <li class="nav-item" data-group="Products"><a class="nav-product" href="#xr" data-nav-link data-vertical="xr" data-desc="Immersive capture and rendering" style="--v:var(--c-xr);--v-ink:var(--ink-xr)">XR</a></li>
+          <li class="nav-item" data-group="Products"><a class="nav-product" href="#security" data-nav-link data-vertical="security" data-desc="Vision at the edge, privately" style="--v:var(--c-security);--v-ink:var(--ink-security)">Security</a></li>
+          <li class="nav-item" data-group="Products"><a class="nav-product" href="#automotive" data-nav-link data-vertical="auto" data-desc="Perception for the road ahead" style="--v:var(--c-auto);--v-ink:var(--ink-auto)">Automotive</a></li>
+
+          <li class="nav-sep" aria-hidden="true"></li>
+
+          <!-- Company -->
+          <li class="nav-item" data-dropdown data-group="Company">
+            <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="panel-company">
+              Company <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+            </button>
+            <div class="nav-panel dropdown" id="panel-company">
+              <ul>
+                <li><a class="dropdown-link" href="#about" data-nav-link><span class="idx">01</span>About <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+                <li><a class="dropdown-link" href="#customers" data-nav-link><span class="idx">02</span>Customers <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+              </ul>
+            </div>
+          </li>
+
+          <!-- Careers -->
+          <li class="nav-item" data-dropdown data-group="Careers">
+            <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="panel-careers">
+              Careers <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+            </button>
+            <div class="nav-panel dropdown" id="panel-careers">
+              <ul>
+                <li><a class="dropdown-link" href="#how-we-work" data-nav-link><span class="idx">01</span>How we work <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+                <li><a class="dropdown-link" href="#open-roles" data-nav-link><span class="idx">02</span>View open roles <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+              </ul>
+            </div>
+          </li>
+
+          <!-- Media -->
+          <li class="nav-item" data-dropdown data-group="Media">
+            <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="panel-media">
+              Media <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+            </button>
+            <div class="nav-panel dropdown" id="panel-media">
+              <ul>
+                <li><a class="dropdown-link" href="#blogs" data-nav-link><span class="idx">01</span>Blogs <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+                <li><a class="dropdown-link" href="#events" data-nav-link><span class="idx">02</span>Events <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="search-trigger" type="button" data-search-open aria-label="Search the site" aria-haspopup="dialog">
+          <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+          <span class="search-label">Search</span>
+          <kbd data-kbd-hint>⌘K</kbd>
+        </button>
+        <a class="btn btn-primary btn-sm header-cta" href="#contact">Contact us</a>
+        <button class="menu-toggle" type="button" data-menu-open aria-label="Open menu" aria-haspopup="dialog">
+          <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-scrim" data-nav-scrim aria-hidden="true"></div>
+
+  <!-- Search (built from the nav by header.js) -->
+  <dialog class="search-dialog" data-search-dialog aria-label="Search">
+    <div class="search-field">
+      <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+      <input class="search-input" type="search" placeholder="Search technologies, careers, insights…" aria-label="Search" autocomplete="off" data-search-input>
+      <button class="search-close" type="button" data-search-close aria-label="Close search">ESC</button>
+    </div>
+    <div class="search-body" data-search-results role="list"></div>
+    <div class="search-foot label-mono"><span>↑ ↓ to move · Enter to open</span><span>Ittiam</span></div>
+  </dialog>
+
+  <!-- Mobile menu (built from the nav by header.js) -->
+  <dialog class="mobile-menu" data-mobile-menu aria-label="Menu">
+    <div class="container mm-bar">
+      <a class="brand" href="./" aria-label="Ittiam home"><img src="assets/img/ittiam-logo.svg" alt="Ittiam" width="74" height="24"></a>
+      <button class="menu-toggle" type="button" data-menu-close aria-label="Close menu" style="display:grid">
+        <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+    </div>
+    <div class="container mm-body" data-mm-body></div>
+    <div class="container mm-foot">
+      <a class="btn btn-primary" href="#contact" data-menu-close-link>Contact us <svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+  </dialog>
+
+  <main id="main">
+    <!-- ===================================================================
+         HERO
+         =================================================================== -->
+    <section class="hero" id="hero" aria-labelledby="hero-title" data-hero>
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-sky"></div>
+        <div class="hero-floor"><div class="hero-floor-grid"></div></div>
+        <div class="hero-horizon"></div>
+        <div class="hero-scanlines"></div>
+        <div class="hero-vignette"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <p class="hero-eyebrow" data-reveal>
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          <span class="think">Think</span>
+          <span class="think-word" data-think-word aria-hidden="true">VIDEO</span>
+          <span class="sr-only">Think video, audio, edge AI, XR, security and automotive.</span>
+        </p>
+
+        <h1 class="hero-title" id="hero-title" data-split>The engineers your engineers <span class="chrome">rely on.</span></h1>
+
+        <figure class="stage" data-stage>
+          <div class="stage-hud" aria-hidden="true">
+            <span class="hud-c hud-tl"></span><span class="hud-c hud-tr"></span>
+            <span class="hud-c hud-bl"></span><span class="hud-c hud-br"></span>
+            <span class="hud-t hud-t-tl label-mono">SIG.IN <b data-hud-sig>0x01</b></span>
+            <span class="hud-t hud-t-tr label-mono"><i class="rec"></i>LIVE</span>
+          </div>
+          <div class="stage-tilt" data-stage-tilt>
+            <div class="stage-porthole">
+              <svg class="stage-svg" viewBox="0 0 600 600" aria-hidden="true" focusable="false" data-stage-svg></svg>
+            </div>
+          </div>
+          <figcaption class="stage-caption">
+            <span class="stage-index label-mono" data-stage-index>01 / 06</span>
+            <span class="stage-name" data-stage-name>Video</span>
+            <span class="stage-tag" data-stage-tag>Codecs, streaming, and video AI</span>
+          </figcaption>
+          <div class="stage-tabs" role="group" aria-label="Choose a technology domain" data-stage-tabs></div>
+        </figure>
+
+        <p class="hero-sub" data-reveal>For 25 years, we’ve made compute-intensive media and AI run inside the constraints of real devices — across every technology wave, on over a billion devices, for the companies whose products reach the world.</p>
+
+        <div class="hero-ctas" data-reveal>
+          <a class="btn btn-primary" href="#products">See what we build <svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="#how-we-work">How we work with you</a>
+        </div>
+      </div>
+
+      <div class="container hero-readout" data-reveal>
+        <dl class="readout-list">
+          <div><dt>Est.</dt><dd>2001</dd></div>
+          <div><dt>Devices</dt><dd>1B+</dd></div>
+          <div><dt>Domains</dt><dd>06</dd></div>
+        </dl>
+        <a class="scroll-cue label-mono" href="#products" aria-label="Scroll to explore"><span>Scroll</span><i aria-hidden="true"></i></a>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="assets/js/stage.js" defer></script>
+  <script src="assets/js/header.js" defer></script>
+  <script src="assets/js/hero.js" defer></script>
+</body>
+</html>

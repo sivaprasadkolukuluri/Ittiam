@@ -1,0 +1,494 @@
+/* ==========================================================================
+   Hero: THINK ticker, headline, porthole stage, horizon floor
+   --accent is set by hero.js to the active vertical and animates between them.
+   ========================================================================== */
+
+@property --accent-ink {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #00C2A8;
+}
+
+.hero {
+  --accent: var(--c-video);
+  --accent-ink: var(--ink-video);
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-top: calc(var(--header-h) + clamp(20px, 5vh, 64px));
+  overflow: hidden;
+  transition: --accent 900ms var(--ease-in-out), --accent-ink 900ms var(--ease-in-out);
+}
+
+/* ---- Background layers ------------------------------------------------- */
+.hero-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.hero-bg > * { position: absolute; inset: 0; }
+
+.hero-sky {
+  background:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.7), transparent 60%),
+    radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(1.5px 1.5px at 44% 26%, rgba(255,255,255,.6), transparent 60%),
+    radial-gradient(1px 1px at 62% 12%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(1px 1px at 86% 22%, rgba(255,255,255,.6), transparent 60%),
+    radial-gradient(1.5px 1.5px at 6% 44%, rgba(255,255,255,.45), transparent 60%),
+    radial-gradient(1px 1px at 94% 48%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(1px 1px at 36% 52%, rgba(255,255,255,.35), transparent 60%),
+    radial-gradient(55% 45% at 74% 44%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 72%),
+    radial-gradient(70% 40% at 50% 100%, rgba(247, 153, 57, 0.12), transparent 70%),
+    linear-gradient(180deg, #03051A 0%, #070A28 55%, #0D0A2E 100%);
+}
+
+.hero-floor {
+  top: auto !important;
+  height: 30%;
+  perspective: 280px;
+  perspective-origin: 50% 0%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 35%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 35%);
+}
+.hero-floor-grid {
+  position: absolute;
+  left: -60%; right: -60%;
+  top: 0; height: 220%;
+  transform-origin: 50% 0;
+  transform: rotateX(72deg);
+  background-image:
+    linear-gradient(90deg, color-mix(in oklab, var(--accent) 55%, transparent) 1.5px, transparent 1.5px),
+    linear-gradient(0deg, color-mix(in oklab, var(--c-xr) 45%, transparent) 1.5px, transparent 1.5px);
+  background-size: 80px 80px;
+  opacity: 0.55;
+  animation: floor-run 2.6s linear infinite;
+}
+@keyframes floor-run { to { background-position: 0 80px; } }
+
+.hero-horizon {
+  top: auto !important;
+  bottom: 30%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--accent) 80%, white) 30%, var(--c-brand) 50%, color-mix(in oklab, var(--accent) 80%, white) 70%, transparent);
+  box-shadow: 0 0 22px 3px color-mix(in oklab, var(--accent) 45%, transparent);
+  opacity: 0.8;
+}
+.hero-horizon::before {
+  content: "";
+  position: absolute;
+  left: 15%; right: 15%;
+  bottom: 0;
+  height: 220px;
+  background: radial-gradient(50% 100% at 50% 100%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%);
+}
+
+.hero-scanlines {
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 3px);
+  mix-blend-mode: overlay;
+}
+.hero-vignette {
+  background: radial-gradient(120% 95% at 50% 38%, transparent 55%, rgba(2, 3, 12, 0.8) 100%);
+}
+
+/* ---- Layout ------------------------------------------------------------ */
+.hero-inner {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "eyebrow" "title" "stage" "sub" "cta";
+  align-content: center;
+}
+
+/* ---- THINK ticker ------------------------------------------------------ */
+.hero-eyebrow {
+  grid-area: eyebrow;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-bottom: clamp(16px, 2.6vh, 28px);
+  font-family: var(--font-tech);
+  font-size: clamp(1rem, 0.8rem + 0.85vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-1);
+}
+.eyebrow-dot {
+  width: 0.36em; height: 0.36em;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px 2px var(--accent);
+  animation: dot-pulse 1.8s var(--ease-in-out) infinite;
+}
+@keyframes dot-pulse { 50% { opacity: 0.35; } }
+.think { color: var(--text-1); }
+
+.think-word {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent);
+  white-space: nowrap;
+  filter: drop-shadow(0 0 10px color-mix(in oklab, var(--accent) 70%, transparent));
+}
+/* Blinking block cursor */
+.think-word::after {
+  content: "";
+  width: 0.5em;
+  height: 0.95em;
+  margin-left: 0.12em;
+  background: var(--accent);
+  animation: cursor 1s steps(1) infinite;
+}
+@keyframes cursor { 50% { opacity: 0; } }
+
+.reel {
+  display: inline-block;
+  height: 1.2em;
+  clip-path: inset(0 -60%);   /* clip vertically only */
+}
+.reel-strip { display: flex; flex-direction: column; align-items: center; will-change: transform; }
+.reel-strip > span { display: block; height: 1.2em; line-height: 1.2em; }
+.think-measure {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+  pointer-events: none;
+}
+
+/* ---- Headline ---------------------------------------------------------- */
+.hero-title {
+  grid-area: title;
+  max-width: 12.5ch;
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  font-weight: 780;
+  font-stretch: 112%;
+  letter-spacing: var(--track-display);
+  color: var(--text-1);
+  text-wrap: balance;
+}
+.hero-title .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.hero-title .w-in { display: inline-block; }
+
+/* Sunset chrome, striped like the retro sun */
+.chrome {
+  background: linear-gradient(180deg, #FFE27A 0%, #F79939 48%, #FF4FA3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-mask-image: linear-gradient(#000 0 54%, transparent 54%), repeating-linear-gradient(180deg, #000 0 0.075em, transparent 0.075em 0.11em);
+  mask-image: linear-gradient(#000 0 54%, transparent 54%), repeating-linear-gradient(180deg, #000 0 0.075em, transparent 0.075em 0.11em);
+  filter: drop-shadow(0 0 18px rgba(247, 153, 57, 0.35));
+  padding-right: 0.04em;
+}
+
+/* ---- Sub + CTAs -------------------------------------------------------- */
+.hero-sub {
+  grid-area: sub;
+  max-width: 54ch;
+  margin-top: clamp(18px, 3vh, 32px);
+  font-size: var(--fs-lead);
+  line-height: 1.62;
+  color: var(--text-2);
+}
+.hero-ctas {
+  grid-area: cta;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(24px, 4vh, 40px);
+}
+
+/* ---- Stage ------------------------------------------------------------- */
+.stage {
+  grid-area: stage;
+  position: relative;
+  width: min(100%, 420px);
+  justify-self: center;
+  margin: 36px 0 8px;
+}
+.stage-tilt { perspective: 1200px; }
+.stage-porthole {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.stage-porthole::before { /* bloom behind the porthole */
+  content: "";
+  position: absolute;
+  inset: -16%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--accent) 30%, transparent) 0%, color-mix(in oklab, var(--c-brand) 10%, transparent) 40%, transparent 64%);
+}
+.stage-svg { width: 100%; height: 100%; overflow: visible; }
+.stage.is-switching .stage-svg { animation: glitch 360ms steps(3) 1; }
+@keyframes glitch {
+  0%   { transform: translate(0, 0); filter: none; }
+  33%  { transform: translate(-3px, 1px); filter: drop-shadow(3px 0 0 rgba(255, 79, 163, .7)) drop-shadow(-3px 0 0 rgba(0, 194, 168, .7)); }
+  66%  { transform: translate(2px, -1px); filter: drop-shadow(-2px 0 0 rgba(255, 79, 163, .6)) drop-shadow(2px 0 0 rgba(45, 156, 219, .6)); }
+  100% { transform: translate(0, 0); filter: none; }
+}
+
+/* HUD frame around the porthole */
+.stage-hud { position: absolute; inset: -3%; bottom: auto; aspect-ratio: 1; pointer-events: none; }
+.hud-c { position: absolute; width: 18px; height: 18px; border: 0 solid var(--line-3); }
+.hud-tl { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+.hud-tr { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
+.hud-bl { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
+.hud-br { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+.hud-t { position: absolute; top: 0; transform: translateY(-140%); display: flex; align-items: center; gap: 6px; font-size: 10px; }
+.hud-t b { color: var(--accent-ink); font-weight: 500; }
+.hud-t-tl { left: 0; }
+.hud-t-tr { right: 0; }
+.rec { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: dot-pulse 1.2s steps(1) infinite; }
+
+.stage-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: 12px;
+  row-gap: 2px;
+  margin-top: 22px;
+  text-align: center;
+}
+.stage-name {
+  font-family: var(--font-tech);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.stage-tag { font-size: var(--fs-sm); color: var(--text-2); }
+
+.stage-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; margin-top: 14px; }
+.stage-tab {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  border-radius: var(--r-md);
+  color: var(--v);
+  border: 1px solid transparent;
+  opacity: 0.55;
+  transition: opacity var(--dur-fast), background-color var(--dur-med), border-color var(--dur-med), box-shadow var(--dur-med);
+}
+.stage-tab svg { width: 20px; height: 20px; }
+.stage-tab:hover { opacity: 1; background: color-mix(in oklab, var(--v) 10%, transparent); }
+.stage-tab[aria-pressed="true"] {
+  opacity: 1;
+  border-color: color-mix(in oklab, var(--v) 45%, transparent);
+  background: color-mix(in oklab, var(--v) 13%, transparent);
+  box-shadow: 0 0 20px -4px color-mix(in oklab, var(--v) 70%, transparent);
+}
+.stage-tab::after { /* rotation progress */
+  content: "";
+  position: absolute;
+  left: 10px; right: 10px; bottom: 5px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--v);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.stage-tabs.is-running .stage-tab[aria-pressed="true"]::after { animation: tab-progress var(--dur, 3.6s) linear forwards; }
+.stage-tabs.is-paused .stage-tab[aria-pressed="true"]::after { transform: scaleX(1); opacity: 0.5; }
+@keyframes tab-progress { to { transform: scaleX(1); } }
+.stage-pause { color: var(--text-2); border-color: var(--line-2); opacity: 1; margin-left: 6px; }
+.stage-pause:hover { color: var(--text-1); background: rgba(255, 255, 255, 0.05); }
+.stage-pause svg { width: 16px; height: 16px; }
+
+/* ---- Readout strip ----------------------------------------------------- */
+.hero-readout {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: clamp(32px, 5vh, 56px);
+  padding-block: 18px 22px;
+}
+.hero-readout::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--gutter); right: var(--gutter);
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-2), transparent 80%);
+}
+.readout-list { display: flex; gap: clamp(20px, 4vw, 56px); margin: 0; }
+.readout-list > div { display: flex; align-items: baseline; gap: 10px; }
+.readout-list dt { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+.readout-list dd { margin: 0; font-family: var(--font-tech); font-size: 0.85rem; letter-spacing: 0.08em; color: var(--text-1); }
+.scroll-cue { display: inline-flex; align-items: center; gap: 12px; transition: color var(--dur-fast); }
+.scroll-cue:hover { color: var(--text-1); }
+.scroll-cue i { position: relative; width: 1px; height: 30px; background: var(--line-2); overflow: hidden; }
+.scroll-cue i::after {
+  content: "";
+  position: absolute;
+  left: 0; top: -40%;
+  width: 1px; height: 40%;
+  background: var(--c-brand);
+  box-shadow: 0 0 6px var(--c-brand);
+  animation: cue 1.8s var(--ease-in-out) infinite;
+}
+@keyframes cue { to { top: 100%; } }
+
+/* ---- Breakpoints ------------------------------------------------------- */
+@media (min-width: 640px) {
+  .stage { width: min(100%, 460px); }
+}
+@media (min-width: 1080px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    grid-template-rows: 1fr auto auto auto auto 1fr;
+    grid-template-areas:
+      ".       stage"
+      "eyebrow stage"
+      "title   stage"
+      "sub     stage"
+      "cta     stage"
+      ".       stage";
+    column-gap: clamp(32px, 4vw, 72px);
+  }
+  .stage {
+    width: min(100%, 540px, calc(100svh - 330px));
+    min-width: 340px;
+    justify-self: end;
+    align-self: center;
+    margin: 0;
+  }
+  .hero-floor { height: 21%; }
+  .hero-horizon { bottom: 21%; }
+}
+@media (max-width: 1079px) {
+  .hero-title { max-width: 13ch; }
+  .hero-floor { height: 18%; }
+  .hero-horizon { bottom: 18%; }
+}
+@media (max-width: 519px) {
+  .hero-ctas .btn { flex: 1 1 100%; }
+  .hero-readout { flex-wrap: wrap; }
+  .scroll-cue { display: none; }
+  .readout-list { width: 100%; justify-content: space-between; }
+  .stage { width: min(88%, 330px); margin-top: 40px; }
+  .stage-tabs { flex-wrap: nowrap; gap: 2px; margin-inline: -24px; }
+  .stage-tab { width: 40px; height: 40px; }
+  .stage-pause { margin-left: 4px; }
+  .hud-t { font-size: 9px; }
+  .hero-sub { margin-top: 36px; }
+}
+
+/* ==========================================================================
+   Stage SVG: shared scene
+   ========================================================================== */
+.stage-svg .s-acc { stroke: var(--accent); }
+.stage-svg .f-acc { fill: var(--accent); }
+.stage-svg .stop-accent { stop-color: var(--accent); }
+.stage-svg .stop-brand { stop-color: var(--c-brand); }
+.stage-svg .grid-faint { stroke: var(--accent); stroke-opacity: 0.2; fill: none; }
+.stage-svg .brk { fill: none; stroke: var(--accent); stroke-width: 1.6; }
+.stage-svg .t { font: 500 10.5px var(--font-mono); letter-spacing: 0.14em; fill: var(--text-3); }
+.stage-svg .t-acc { fill: var(--accent); }
+.stage-svg .t-hi { fill: var(--text-1); font-size: 12px; }
+.stage-svg .t-tiny { font: 600 9px var(--font-mono); letter-spacing: 0; }
+.stage-svg .t-ink { font: 600 8.5px var(--font-mono); letter-spacing: 0.08em; fill: #050818; }
+
+.stage-svg .stars circle { fill: #fff; animation: twinkle 3s ease-in-out infinite alternate; }
+@keyframes twinkle { from { opacity: 0.15; } to { opacity: 0.9; } }
+.stage-svg .sun { opacity: 0.5; }
+.stage-svg .floor-v line { stroke: var(--accent); stroke-opacity: 0.32; }
+.stage-svg .floor-h line { stroke: var(--accent); stroke-opacity: 0.55; }
+.stage-svg .horizon { stroke: var(--accent); stroke-width: 1.6; }
+.stage-svg .horizon-glow { stroke: var(--accent); stroke-width: 10; stroke-opacity: 0.18; }
+.stage-svg .ring { transform-origin: 300px 300px; animation: spin 26s linear infinite; }
+.stage-svg .ring-glow { stroke-opacity: 0.18; }
+.stage-svg .dial line { stroke: var(--text-3); stroke-opacity: 0.4; }
+.stage-svg .dial line.long { stroke: var(--accent); stroke-opacity: 0.9; }
+.stage-svg .dial { transform-origin: 300px 300px; animation: spin 90s linear infinite reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Only the active illustration is visible and animating */
+.stage-svg .il { visibility: hidden; }
+.stage-svg .il.is-active { visibility: visible; }
+.stage-svg .il:not(.is-active) * { animation-play-state: paused !important; }
+
+/* ---- Video ---- */
+.v-packet { animation: v-packet 2.8s linear infinite; opacity: 0; }
+@keyframes v-packet {
+  0%   { transform: translate(300px, 374px) scale(0.12); opacity: 0; }
+  12%  { opacity: 1; }
+  100% { transform: translate(calc(300px + var(--dx)), 600px) scale(1.15); opacity: 0; }
+}
+.v-block { fill-opacity: 0; animation: v-block 2.4s ease-in-out infinite; }
+@keyframes v-block { 40% { fill-opacity: 0.5; } 60% { fill-opacity: 0.12; } }
+.v-playhead { animation: v-playhead 4s linear infinite; }
+@keyframes v-playhead { from { transform: translateX(0); } to { transform: translateX(300px); } }
+.v-progress { stroke-dasharray: 300 300; animation: v-progress 4s linear infinite; }
+@keyframes v-progress { from { stroke-dashoffset: 300; } to { stroke-dashoffset: 0; } }
+.v-detect { animation: blink-soft 2.2s ease-in-out infinite; }
+@keyframes blink-soft { 50% { opacity: 0.55; } }
+
+/* ---- Audio ---- */
+.a-ring { transform-box: fill-box; transform-origin: center; vector-effect: non-scaling-stroke; animation: a-ring 3.6s cubic-bezier(.2,.6,.3,1) infinite; }
+@keyframes a-ring { from { transform: scale(1); opacity: 0.8; } to { transform: scale(3.6); opacity: 0; } }
+.a-arc { opacity: 0.15; animation: a-arc 1.4s ease-in-out infinite; }
+@keyframes a-arc { 30% { opacity: 1; } 60% { opacity: 0.15; } }
+.a-bar { transform-box: fill-box; transform-origin: 50% 100%; animation: a-bar 1s ease-in-out infinite alternate; }
+@keyframes a-bar { from { transform: scaleY(0.18); } to { transform: scaleY(1); } }
+.a-core { animation: blink-soft 1.6s ease-in-out infinite; }
+.a-wave { animation: a-wave 3.2s linear infinite; }
+@keyframes a-wave { to { transform: translateX(-300px); } }
+
+/* ---- Edge AI ---- */
+.e-edges line { stroke: var(--accent); stroke-opacity: 0.14; }
+.e-pulse { stroke-dasharray: 7 140; stroke-dashoffset: 7; animation: e-pulse 2.4s linear infinite; }
+@keyframes e-pulse { to { stroke-dashoffset: -100; } }
+.e-node { animation: blink-soft 1.8s ease-in-out infinite; }
+.e-chip line { stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; }
+.e-glow { fill-opacity: 0.1; animation: e-glow 2.4s ease-in-out infinite; }
+@keyframes e-glow { 50% { fill-opacity: 0.28; } }
+.e-cell { fill-opacity: 0.12; animation: e-cell 2.4s ease-in-out infinite; }
+@keyframes e-cell { 20% { fill-opacity: 0.95; } 45% { fill-opacity: 0.12; } }
+
+/* ---- XR ---- */
+.x-ray { stroke-width: 1.4; stroke-dasharray: 3 7; stroke-opacity: 0.75; animation: x-ray 0.9s linear infinite; }
+@keyframes x-ray { to { stroke-dashoffset: -20; } }
+.x-dot { animation: blink-soft 2s ease-in-out infinite; }
+.x-core { animation: e-glow 3s ease-in-out infinite; }
+.x-lens { animation: blink-soft 1.4s ease-in-out infinite; }
+.x-bob { animation: x-bob 3.2s ease-in-out infinite alternate; }
+.x-bob-2 { animation-duration: 4s; animation-delay: -1.5s; }
+@keyframes x-bob { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+
+/* ---- Security ---- */
+.s-ticks line { stroke: var(--accent); stroke-opacity: 0.5; }
+.s-ticks { transform-origin: 300px 218px; animation: spin 40s linear infinite; }
+.s-sweep { transform-origin: 300px 218px; animation: spin 3.4s linear infinite; }
+.s-pupil { animation: blink-soft 2s ease-in-out infinite; }
+.s-px { fill-opacity: var(--o); animation: s-px 1.6s steps(2) infinite; }
+@keyframes s-px { 50% { fill-opacity: calc(var(--o) * 0.35); } }
+.s-sight { stroke-dasharray: 2 6; stroke-opacity: 0.55; animation: x-ray 1.2s linear infinite; }
+
+/* ---- Automotive ---- */
+.m-lane { stroke-width: 3; stroke-dasharray: 16 18; animation: m-lane 0.55s linear infinite; }
+@keyframes m-lane { to { stroke-dashoffset: -34; } }
+.m-arc { transform-origin: 300px 600px; animation: m-arc 2.4s ease-out infinite; }
+@keyframes m-arc { from { transform: scale(0.35); opacity: 0.9; } to { transform: scale(2.3); opacity: 0; } }
+.m-obj { transform-box: fill-box; transform-origin: center; animation: m-obj 2.6s ease-in-out infinite alternate; }
+.m-obj-2 { animation-delay: -1s; }
+.m-obj-3 { animation-delay: -1.8s; }
+@keyframes m-obj { from { transform: scale(1); } to { transform: scale(1.06); } }
+.m-seg { animation: m-seg 2.4s ease-in-out infinite; }
+.m-seg-hot { animation-name: m-seg-hot; }
+@keyframes m-seg { 0%, 100% { stroke-opacity: 1; } 50% { stroke-opacity: 0.7; } }
+@keyframes m-seg-hot { 0%, 100% { stroke-opacity: 1; } 50% { stroke-opacity: 0.1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-floor-grid, .stage-svg * { animation: none !important; }
+}
