@@ -165,15 +165,34 @@
         <h1 class="hero-title" id="hero-title" data-split>The engineers your engineers <span class="chrome">rely on.</span></h1>
 
         <figure class="stage" data-stage>
-          <div class="stage-hud" aria-hidden="true">
-            <span class="hud-c hud-tl"></span><span class="hud-c hud-tr"></span>
-            <span class="hud-c hud-bl"></span><span class="hud-c hud-br"></span>
-            <span class="hud-t hud-t-tl label-mono">SIG.IN <b data-hud-sig>0x01</b></span>
-            <span class="hud-t hud-t-tr label-mono"><i class="rec"></i>LIVE</span>
-          </div>
-          <div class="stage-tilt" data-stage-tilt>
-            <div class="stage-porthole">
-              <svg class="stage-svg" viewBox="0 0 600 600" aria-hidden="true" focusable="false" data-stage-svg></svg>
+          <div class="stage-frame">
+            <div class="stage-hud" aria-hidden="true">
+              <span class="hud-c hud-tl"></span><span class="hud-c hud-tr"></span>
+              <span class="hud-c hud-bl"></span><span class="hud-c hud-br"></span>
+              <span class="hud-t hud-t-tl label-mono">SIG.IN <b data-hud-sig>0x01</b></span>
+              <span class="hud-t hud-t-tr label-mono"><i class="rec"></i>LIVE</span>
+            </div>
+            <div class="stage-tilt" data-stage-tilt>
+              <div class="tv" aria-hidden="true">
+                <div class="tv-antenna"><i class="tv-ant tv-ant-l"></i><i class="tv-ant tv-ant-r"></i><i class="tv-ant-base"></i></div>
+                <div class="tv-cabinet">
+                  <div class="tv-bezel">
+                    <div class="tv-screen">
+                      <div class="tv-layers" data-tv-layers></div>
+                      <div class="tv-static"></div>
+                      <div class="tv-glass"></div>
+                    </div>
+                  </div>
+                  <div class="tv-panel">
+                    <span class="tv-grille"></span>
+                    <span class="tv-ch label-mono">CH <b data-tv-ch>01</b></span>
+                    <span class="tv-knob" data-tv-knob></span>
+                    <span class="tv-knob tv-knob-sm"></span>
+                    <span class="tv-led"></span>
+                  </div>
+                </div>
+                <div class="tv-feet"><i></i><i></i></div>
+              </div>
             </div>
           </div>
           <figcaption class="stage-caption">
@@ -205,7 +224,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="assets/js/stage.js" defer></script>
   <script src="assets/js/header.js" defer></script>
   <script src="assets/js/hero.js" defer></script>
 </body>

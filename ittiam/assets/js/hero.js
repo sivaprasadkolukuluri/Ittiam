@@ -25,7 +25,9 @@
   const $ = (s) => hero.querySelector(s);
   const wordEl = $('[data-think-word]');
   const stageEl = $('[data-stage]');
-  const svg = $('[data-stage-svg]');
+  const layersEl = $('[data-tv-layers]');
+  const chEl = $('[data-tv-ch]');
+  const knobEl = $('[data-tv-knob]');
   const tabsEl = $('[data-stage-tabs]');
   const idxEl = $('[data-stage-index]');
   const nameEl = $('[data-stage-name]');
@@ -33,9 +35,42 @@
   const sigEl = $('[data-hud-sig]');
   const tilt = $('[data-stage-tilt]');
 
-  /* ---------------- Stage ---------------- */
-  const stage = window.IttiamStage.build(svg);
-  const groups = Object.fromEntries(VERTICALS.map(v => [v.key, svg.querySelector(`[data-v="${v.key}"]`)]));
+  /* ---------------- TV screen: one layer per vertical ---------------- */
+  // Illustrations live in assets/illos/<key>.svg (animated SVG). They're inlined so
+  // only the channel on screen animates; if fetching fails they fall back to <img>.
+  const layers = {};
+  VERTICALS.forEach(v => {
+    const el = document.createElement('div');
+    el.className = 'tv-layer';
+    el.dataset.v = v.key;
+    layersEl.appendChild(el);
+    layers[v.key] = el;
+  });
+  let offscreen = false;
+  const svgOf = (key) => layers[key].querySelector('svg');
+  function syncPlayback() {
+    VERTICALS.forEach((v, k) => {
+      const s = svgOf(v.key);
+      if (!s || !s.pauseAnimations) return;
+      if (reduceMotion) { s.setCurrentTime(2); s.pauseAnimations(); return; }
+      (k === current && !offscreen) ? s.unpauseAnimations() : s.pauseAnimations();
+    });
+  }
+  const loadIllo = (v) => fetch(`assets/illos/${v.key}.svg`)
+    .then(r => (r.ok ? r.text() : Promise.reject(r.status)))
+    .then(text => {
+      layers[v.key].innerHTML = text;
+      const s = svgOf(v.key);
+      ['width', 'height', 'role', 'aria-label'].forEach(a => s.removeAttribute(a));
+      s.setAttribute('aria-hidden', 'true');
+      s.setAttribute('focusable', 'false');
+      s.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+      s.querySelector('title')?.remove();
+      syncPlayback();
+    })
+    .catch(() => { layers[v.key].innerHTML = `<img src="assets/illos/${v.key}.svg" alt="">`; });
+  // The first channel loads first, the rest right after
+  loadIllo(VERTICALS[0]).then(() => VERTICALS.slice(1).forEach(loadIllo));
 
   /* ---------------- Tabs ---------------- */
   tabsEl.innerHTML = VERTICALS.map((v, i) => `
@@ -97,11 +132,16 @@
   /* ---------------- Switching ---------------- */
   let current = -1;
   let switchTl;
+  let knobAngle = 0;
   function go(i, { spin = true } = {}) {
     if (i === current) return;
     const prevV = VERTICALS[current];
     const v = VERTICALS[i];
+    // Channel knob always turns forward, one notch per channel
+    if (current > -1) knobAngle += ((i - current + VERTICALS.length) % VERTICALS.length) * 60;
     current = i;
+    knobEl.style.setProperty('--rot', knobAngle + 'deg');
+    chEl.textContent = String(i + 1).padStart(2, '0');
 
     hero.style.setProperty('--accent', v.color);
     hero.style.setProperty('--accent-ink', v.ink);
@@ -113,29 +153,35 @@
     tagEl.textContent = v.tag;
     sigEl.textContent = '0x' + String(i + 1).padStart(2, '0');
 
-    const inG = groups[v.key];
-    const outG = prevV ? groups[prevV.key] : null;
+    const inL = layers[v.key];
+    const outL = prevV ? layers[prevV.key] : null;
     if (switchTl) switchTl.progress(1).kill();
 
-    if (!animate || !outG) {
-      Object.values(groups).forEach(g => g.classList.toggle('is-active', g === inG));
+    if (!animate || !outL) {
+      Object.values(layers).forEach(l => l.classList.toggle('is-active', l === inL));
+      syncPlayback();
       return;
     }
-    // CRT-style switch: the old signal collapses to a line, the new one opens out of it
+    // CRT channel change: the old picture collapses to a bright line, static, then the new one opens
     stageEl.classList.remove('is-switching');
     void stageEl.offsetWidth;
     stageEl.classList.add('is-switching');
     switchTl = gsap.timeline()
-      .to(outG, { scaleY: 0.02, opacity: 0, duration: 0.22, ease: 'power2.in', svgOrigin: '300 300' })
-      .add(() => { outG.classList.remove('is-active'); gsap.set(outG, { clearProps: 'transform,opacity' }); inG.classList.add('is-active'); })
-      .fromTo(inG, { scaleY: 0.02, opacity: 1 }, { scaleY: 1, duration: 0.55, ease: 'expo.out', svgOrigin: '300 300', clearProps: 'transform' });
+      .to(outL, { scaleY: 0.015, filter: 'brightness(2.4)', duration: 0.2, ease: 'power2.in' })
+      .to(outL, { scaleX: 0, duration: 0.08, ease: 'power1.in' })
+      .add(() => {
+        outL.classList.remove('is-active');
+        gsap.set(outL, { clearProps: 'transform,filter' });
+        inL.classList.add('is-active');
+        syncPlayback();
+      })
+      .fromTo(inL, { scaleY: 0.015, filter: 'brightness(2.4)' }, { scaleY: 1, filter: 'brightness(1)', duration: 0.55, ease: 'expo.out', clearProps: 'transform,filter' });
   }
 
   /* ---------------- Autoplay ---------------- */
   let timer = null;
   let userPaused = reduceMotion;   // reduced motion: don't auto-rotate
   let hoverPaused = false;
-  let offscreen = false;
 
   const running = () => !userPaused && !hoverPaused && !offscreen && !document.hidden;
   function restartProgress() {
@@ -176,12 +222,8 @@
   new IntersectionObserver(([entry]) => {
     offscreen = !entry.isIntersecting;
     schedule();
+    syncPlayback();
   }, { threshold: 0.05 }).observe(hero);
-
-  /* ---------------- Per-frame scene updates ---------------- */
-  if (animate) {
-    gsap.ticker.add((time) => { if (!offscreen && current > -1) stage.tick(time, VERTICALS[current].key); });
-  }
 
   /* ---------------- Pointer tilt ---------------- */
   if (animate && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -227,7 +269,8 @@
         .from('.site-header', { yPercent: -100, opacity: 0, duration: 0.9 }, 0)
         .from(title.querySelectorAll('.w-in'), { yPercent: 110, duration: 1.1, stagger: 0.06 }, 0.15)
         .from(reveal, { y: 24, opacity: 0, duration: 1, stagger: 0.1 }, 0.35)
-        .from('.stage-porthole', { scaleY: 0.01, scaleX: 0.6, opacity: 0, duration: 1.1, ease: 'expo.out' }, 0.3)
+        .from('.tv', { y: 30, opacity: 0, duration: 1, ease: 'expo.out' }, 0.3)
+        .from('.tv-layers', { scaleY: 0.01, filter: 'brightness(3)', duration: 0.9, ease: 'expo.out', clearProps: 'transform,filter' }, 0.75)
         .from('.stage-hud, .stage-caption, .stage-tabs', { opacity: 0, y: 10, duration: 0.8, stagger: 0.08 }, 0.8)
         .from('.hero-floor, .hero-horizon', { opacity: 0, duration: 1.6, ease: 'power2.out' }, 0.2)
         .add(() => { setWord(VERTICALS[0].name.toUpperCase(), true); schedule(); }, 0.6);
