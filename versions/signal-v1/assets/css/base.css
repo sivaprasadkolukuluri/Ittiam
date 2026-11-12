@@ -15,7 +15,7 @@ body {
   min-height: 100vh;
   background: var(--bg-0);
   color: var(--text-2);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   font-stretch: 100%;
@@ -118,7 +118,7 @@ kbd { font-family: var(--font-mono); }
   height: var(--btn-h);
   padding: 0 24px;
   border-radius: var(--r-md);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 650;
   font-stretch: 108%;

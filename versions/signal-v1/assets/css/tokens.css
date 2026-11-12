@@ -53,9 +53,10 @@
   --text-3: #8C93BF;        /* meta, captions (6:1 on bg-1) */
 
   /* ---- Typography ----------------------------------------------------- */
-  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;  /* variable width + weight */
-  --font-tech: "Michroma", "Eurostile", "Archivo", sans-serif;     /* wide, era-correct labels */
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-display: "Tomorrow", "Archivo", "Helvetica Neue", Arial, sans-serif;  /* display: hero headline */
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;                 /* headings & body */
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace; /* labels, eyebrows, captions, specs, code */
+  --font-tech: var(--font-mono);
 
   /* Fluid type scale (min @ 360px → max @ 1440px) */
   --fs-display: clamp(2.6rem, 1.15rem + 4.4vw, 5.1rem);
