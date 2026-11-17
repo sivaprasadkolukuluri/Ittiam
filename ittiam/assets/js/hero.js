@@ -140,8 +140,8 @@
     // Channel knob always turns forward, one notch per channel
     if (current > -1) knobAngle += ((i - current + VERTICALS.length) % VERTICALS.length) * 60;
     current = i;
-    knobEl.style.setProperty('--rot', knobAngle + 'deg');
-    chEl.textContent = String(i + 1).padStart(2, '0');
+    knobEl?.style.setProperty('--rot', knobAngle + 'deg');
+    if (chEl) chEl.textContent = String(i + 1).padStart(2, '0');
 
     hero.style.setProperty('--accent', v.color);
     hero.style.setProperty('--accent-ink', v.ink);

@@ -212,92 +212,54 @@
 .stage-frame { position: relative; container-type: inline-size; }
 .stage-tilt { perspective: 1200px; }
 
-/* ---- Retro TV ---------------------------------------------------------- */
+/* ---- Retro TV (minimal) ------------------------------------------------ */
 .tv {
   position: relative;
-  padding-top: 15cqw;               /* room for the antenna */
   transform-style: preserve-3d;
   will-change: transform;
 }
 .tv::before { /* bloom behind the set */
   content: "";
   position: absolute;
-  inset: 4% -14% -10%;
+  inset: -6% -14% -10%;
   z-index: -1;
   border-radius: 50%;
-  background: radial-gradient(closest-side, color-mix(in oklab, var(--accent) 30%, transparent) 0%, color-mix(in oklab, var(--c-brand) 10%, transparent) 55%, transparent 100%);
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--accent) 26%, transparent) 0%, color-mix(in oklab, var(--c-brand) 8%, transparent) 55%, transparent 100%);
   transition: background var(--dur-slow, .6s);
 }
 
-/* Rabbit-ear antenna */
-.tv-antenna { position: absolute; top: 0; left: 50%; width: 30cqw; height: 16cqw; transform: translateX(-50%); }
-.tv-ant {
-  position: absolute; left: 50%; bottom: 1.6cqw;
-  width: 2px; height: 15cqw; margin-left: -1px;
-  border-radius: 2px;
-  background: linear-gradient(to top, #5A6296, #C1C5E4);
-  transform-origin: 50% 100%;
-}
-.tv-ant-l { transform: rotate(-34deg); }
-.tv-ant-r { transform: rotate(26deg); height: 13cqw; }
-.tv-ant::after { /* glowing tip */
-  content: "";
-  position: absolute; top: -4px; left: 50%;
-  width: 8px; height: 8px; margin-left: -4px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent), 0 0 22px var(--accent);
-  animation: dot-pulse 2.4s ease-in-out infinite;
-}
-.tv-ant-r::after { animation-delay: -1.2s; }
-.tv-ant-base {
-  position: absolute; left: 50%; bottom: -1px;
-  width: 11cqw; height: 3.2cqw;
-  transform: translateX(-50%);
-  border-radius: 3cqw 3cqw 0 0;
-  background: linear-gradient(#232B66, #0E1440);
-  border: 1px solid var(--line-3); border-bottom: 0;
-}
-
-/* Cabinet */
+/* Cabinet: one rounded shell with a thin lit rim */
 .tv-cabinet {
   position: relative;
-  padding: 3.6cqw 3.6cqw 0;
-  border-radius: clamp(16px, 5.2cqw, 30px);
-  background: linear-gradient(165deg, #1E2660 0%, #10164A 42%, #080C2C 100%);
+  padding: 3.2cqw 3.2cqw 0;
+  border-radius: clamp(18px, 6cqw, 32px);
+  background: linear-gradient(170deg, #161D52 0%, #0B1038 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    inset 0 -12px 28px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 40px 80px -34px rgba(0, 0, 0, 0.9),
-    0 0 70px -18px color-mix(in oklab, var(--accent) 60%, transparent);
+    0 0 60px -20px color-mix(in oklab, var(--accent) 55%, transparent);
 }
 .tv-cabinet::before { /* lit rim, picks up the vertical's colour */
   content: "";
   position: absolute; inset: 0;
   padding: 1px;
   border-radius: inherit;
-  background: linear-gradient(160deg, color-mix(in oklab, var(--accent) 80%, white 10%), rgba(150, 165, 255, 0.18) 30%, rgba(150, 165, 255, 0.08) 70%, color-mix(in oklab, var(--c-brand) 55%, transparent));
+  background: linear-gradient(160deg, color-mix(in oklab, var(--accent) 75%, white 10%), rgba(150, 165, 255, 0.14) 35%, rgba(150, 165, 255, 0.06) 75%, color-mix(in oklab, var(--accent) 35%, transparent));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
 }
-.tv-bezel {
-  padding: 2.6cqw;
-  border-radius: clamp(12px, 4cqw, 22px);
-  background: linear-gradient(#04061A, #0B1036);
-  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.85), inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 1px 0 rgba(255, 255, 255, 0.06);
-}
 
-/* CRT screen: bulged corners, glass, scanlines, vignette */
+/* CRT screen: curved corners, glass, scanlines, vignette */
 .tv-screen {
   position: relative;
-  aspect-ratio: 800 / 520;
-  border-radius: 9% / 13%;
+  aspect-ratio: 5 / 4;
+  border-radius: 8% / 10%;
   overflow: hidden;
   isolation: isolate;
-  background: #04061A;
-  box-shadow: 0 0 0 2px #02030C, 0 0 26px -6px var(--accent);
+  background: #0B1226;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 24px -8px var(--accent);
 }
 .tv-layers { position: absolute; inset: 0; animation: crt-flicker 5s steps(1) infinite; }
 .tv-layer { position: absolute; inset: -2%; visibility: hidden; }  /* slight overscan, like a real CRT */
@@ -310,10 +272,10 @@
   border-radius: inherit;
   pointer-events: none;
   background:
-    radial-gradient(110% 80% at 26% 8%, rgba(255, 255, 255, 0.13), transparent 42%),
-    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.24) 0 1px, transparent 1px 3px),
-    radial-gradient(ellipse at center, transparent 58%, rgba(2, 3, 14, 0.6) 100%);
-  box-shadow: inset 0 0 34px rgba(0, 0, 0, 0.75), inset 0 0 4px color-mix(in oklab, var(--accent) 50%, transparent);
+    radial-gradient(110% 80% at 26% 8%, rgba(255, 255, 255, 0.1), transparent 42%),
+    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at center, transparent 62%, rgba(2, 3, 14, 0.55) 100%);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.65);
 }
 .tv-glass::after { /* slow rolling refresh band */
   content: "";
@@ -349,70 +311,25 @@
   100% { transform: translate(0, 0); filter: none; }
 }
 
-/* Control strip: speaker grille, channel readout, knobs, power LED */
-.tv-panel { display: flex; align-items: center; gap: 3cqw; padding: 3cqw 1.4cqw 3.4cqw; }
-.tv-grille {
-  flex: 1;
-  height: 5.2cqw;
-  border-radius: 4px;
-  background: repeating-linear-gradient(90deg, rgba(150, 165, 255, 0.3) 0 2px, transparent 2px 6px);
-  -webkit-mask: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  mask: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-}
+/* Slim chin: channel readout and power light */
+.tv-panel { display: flex; align-items: center; justify-content: flex-end; gap: 2.4cqw; padding: 2.4cqw 1.6cqw 2.8cqw; }
 .tv-ch {
-  padding: 0.9cqw 1.6cqw;
-  border-radius: 6px;
-  background: #03040F;
-  border: 1px solid var(--line-2);
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
   font-size: clamp(9px, 2cqw, 11px);
   letter-spacing: 0.14em;
   color: var(--text-3);
   white-space: nowrap;
 }
-.tv-ch b { color: var(--accent-ink); font-weight: 500; text-shadow: 0 0 8px var(--accent); }
-.tv-knob {
-  position: relative;
-  flex: none;
-  width: 7.6cqw; aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #424A86, #161C4C 60%, #0A0E30);
-  border: 1px solid var(--line-3);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  transform: rotate(var(--rot, 0deg));
-  transition: transform 0.7s cubic-bezier(0.3, 1.5, 0.5, 1);
-}
-.tv-knob::after { /* pointer */
-  content: "";
-  position: absolute; top: 12%; left: 50%;
-  width: 2px; height: 30%; margin-left: -1px;
-  border-radius: 2px;
-  background: var(--accent);
-  box-shadow: 0 0 6px var(--accent);
-}
-.tv-knob-sm { width: 5.4cqw; --rot: -40deg; }
-.tv-knob-sm::after { background: var(--text-3); box-shadow: none; }
+.tv-ch b { color: var(--accent-ink); font-weight: 500; }
 .tv-led {
   flex: none;
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--c-brand);
-  box-shadow: 0 0 8px var(--c-brand);
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
 }
-
-/* Feet */
-.tv-feet { display: flex; justify-content: space-between; padding: 0 17%; }
-.tv-feet i {
-  width: 3.4cqw; height: 4cqw;
-  background: linear-gradient(#1B2257, #090D2E);
-  border: 1px solid var(--line-2); border-top: 0;
-  border-radius: 0 0 5px 5px;
-  transform: skewX(14deg);
-}
-.tv-feet i + i { transform: skewX(-14deg); }
 
 /* HUD frame around the TV */
-.stage-hud { position: absolute; inset: 8cqw -4% -2%; pointer-events: none; }
+.stage-hud { position: absolute; inset: -5% -5% -4%; pointer-events: none; }
 .hud-c { position: absolute; width: 18px; height: 18px; border: 0 solid var(--line-3); }
 .hud-tl { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
 .hud-tr { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
@@ -562,5 +479,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-floor-grid, .tv-layers, .tv-glass::after, .tv-ant::after { animation: none !important; }
+  .hero-floor-grid, .tv-layers, .tv-glass::after { animation: none !important; }
 }
