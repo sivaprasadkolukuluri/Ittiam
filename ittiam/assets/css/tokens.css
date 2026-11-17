@@ -53,6 +53,7 @@
   --text-3: #8C93BF;        /* meta, captions (6:1 on bg-1) */
 
   /* ---- Typography ----------------------------------------------------- */
+  --font-heading: "Sora", "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;  /* variable width + weight */
   --font-tech: "Michroma", "Eurostile", "Archivo", sans-serif;     /* wide, era-correct labels */
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;

@@ -258,8 +258,40 @@
     });
   }
 
+  /* ---------------- Desktop: size the TV to the copy ----------------
+     The stage spans the eyebrow to the CTAs: its SIG.IN label lines up with the
+     eyebrow and its tabs with the buttons. Height is linear in width, so two
+     trial widths give the exact fit. Layout values only (no transforms). */
+  const desktop = window.matchMedia('(min-width: 1080px)');
+  const eyebrowEl = $('.hero-eyebrow');
+  const ctasEl = $('.hero-ctas');
+  const hudEl = $('.stage-hud');
+  const hudLabel = $('.hud-t');
+  const stageExtent = () => {
+    const overhang = Math.max(0, -(hudEl.offsetTop + hudLabel.offsetTop - 1.4 * hudLabel.offsetHeight));
+    return stageEl.offsetHeight + overhang;
+  };
+  function fitStage() {
+    if (!desktop.matches) { stageEl.style.width = ''; return; }
+    const setW = (w) => { stageEl.style.width = Math.round(Math.min(Math.max(w, 260), 560)) + 'px'; };
+    setW(200);  // small, so the stage can't stretch the copy's rows while we measure
+    const target = (ctasEl.offsetTop + ctasEl.offsetHeight) - eyebrowEl.offsetTop;
+    setW(380); const e1 = stageExtent();
+    setW(440); const e2 = stageExtent();
+    const slope = (e2 - e1) / 60;
+    let w = 380 + (target - e1) / slope;
+    setW(w);
+    // One correction pass (the caption can rewrap at a new width)
+    w += (target - stageExtent()) / slope;
+    setW(w);
+  }
+  let fitRaf;
+  const queueFit = () => { cancelAnimationFrame(fitRaf); fitRaf = requestAnimationFrame(fitStage); };
+  window.addEventListener('resize', queueFit);
+
   /* ---------------- Start ---------------- */
   const start = () => {
+    fitStage();
     go(0, { spin: false });
 
     if (animate) {
@@ -279,7 +311,7 @@
       const st = { trigger: hero, start: 'top top', end: 'bottom top', scrub: true };
       // (yPercent, not y/opacity, so it never fights the intro tweens on the same elements)
       gsap.to('.hero-eyebrow, .hero-title, .hero-sub, .hero-ctas', { yPercent: -18, ease: 'none', scrollTrigger: st });
-      gsap.to('.stage', { y: 80, ease: 'none', scrollTrigger: st });
+      gsap.to('.stage', { y: -60, ease: 'none', scrollTrigger: st });  // rises with the copy, never into the floor
       gsap.to('.hero-floor-grid', { opacity: 0.15, ease: 'none', scrollTrigger: st });
     } else {
       schedule();

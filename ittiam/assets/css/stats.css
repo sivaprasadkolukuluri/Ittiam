@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Stats: big sunset numbers, body-size descriptions, animated retro icons
+   ========================================================================== */
+.stats { padding-block: clamp(32px, 5vw, 64px) clamp(56px, 9vw, 112px); }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.stat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px clamp(24px, 4vw, 56px);
+}
+.stat:first-child { padding-left: 0; }
+.stat:last-child { padding-right: 0; }
+.stat + .stat::before {  /* soft divider */
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--line-2, rgba(150, 165, 255, 0.18)) 30%, var(--line-2, rgba(150, 165, 255, 0.18)) 70%, transparent);
+}
+
+/* Icon style, "signal line": 48px grid, one 1.75px rounded stroke, brand-orange
+   gradient with a soft neon glow, one glint, one quiet motion. No fills or 3D. */
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  margin-bottom: clamp(18px, 2.4vw, 26px);
+  overflow: visible;
+}
+
+.stat-num {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 2rem + 4vw, 4.75rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-1);
+}
+.stat-desc {
+  margin: 14px 0 0;
+  max-width: 30ch;
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+@media (max-width: 860px) {
+  .stats-grid { grid-template-columns: minmax(0, 1fr); row-gap: 48px; }
+  .stat, .stat:first-child, .stat:last-child { padding: 0; }
+  .stat + .stat { padding-top: 48px; }
+  .stat + .stat::before {
+    top: 0; bottom: auto; left: 0; right: 0;
+    width: auto; height: 1px;
+    background: linear-gradient(90deg, var(--line-2, rgba(150, 165, 255, 0.18)), transparent 80%);
+  }
+}

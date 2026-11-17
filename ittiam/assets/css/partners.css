@@ -1,0 +1,80 @@
+/* ==========================================================================
+   Partner logo strip: muted logos glide right to left in a loop.
+   Hover pauses the strip and lights the logo under the pointer in its brand colour.
+   ========================================================================== */
+.partners {
+  position: relative;
+  padding-block: clamp(36px, 6vw, 64px);
+  /* sits on the page colour the hero fades into */
+}
+.partners-label {
+  margin: 0 0 clamp(20px, 3vw, 28px);
+  text-align: center;
+  color: var(--text-3);
+}
+
+.marquee {
+  --gap: clamp(48px, 6vw, 88px);
+  --speed: 38s;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--speed) linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+.marquee-list {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding-right: var(--gap);   /* keeps the seam between the two copies even */
+  margin: 0;
+  list-style: none;
+}
+
+/* Logos are the official artwork. Default: one neutral grey silhouette for every brand.
+   Hover: colour logos show their colours; black logos turn white; Meta and Harman
+   keep their colour parts and turn only their black parts white (a white copy, clipped). */
+.logo { display: flex; align-items: center; height: 64px; flex: none; }
+.logo-img { position: relative; display: block; }
+.logo img {
+  display: block;
+  height: var(--h);
+  width: auto;
+  max-width: none;
+  filter: brightness(0) invert(0.62);
+  opacity: 0.8;
+  transition: filter 0.4s var(--ease-out, ease), opacity 0.4s var(--ease-out, ease);
+}
+.logo .logo-white {
+  position: absolute; inset: 0;
+  height: 100%;
+  filter: brightness(0) invert(1);
+  opacity: 0;
+}
+.logo[data-tone="split-meta"] .logo-white { clip-path: inset(0 0 0 33%); }               /* the word */
+.logo[data-tone="split-harman"] .logo-white { clip-path: inset(70.5% 0 19.5% 36%); }    /* the tagline */
+
+.logo:hover img { filter: brightness(1) invert(0); opacity: 1; }
+.logo[data-tone="mono"]:hover img { filter: brightness(0) invert(1); }
+.logo:hover .logo-white { filter: brightness(0) invert(1); opacity: 1; }
+
+@media (max-width: 640px) {
+  .logo { height: 54px; }
+  .logo img { height: calc(var(--h) * 0.82); }
+  .logo .logo-white { height: 100%; }
+}
+
+/* Reduced motion: a still, centred, wrapping row */
+@media (prefers-reduced-motion: reduce) {
+  .marquee { -webkit-mask-image: none; mask-image: none; }
+  .marquee-track { animation: none; width: auto; justify-content: center; }
+  .marquee-list { flex-wrap: wrap; justify-content: center; row-gap: 24px; padding: 0 var(--gutter, 24px); }
+  .marquee-list[aria-hidden="true"] { display: none; }
+}

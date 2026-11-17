@@ -48,8 +48,9 @@
   perspective: 280px;
   perspective-origin: 50% 0%;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 35%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 35%);
+  /* fades in from the horizon, then dissolves into the page instead of ending on a hard edge */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 48%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 48%, transparent 100%);
 }
 .hero-floor-grid {
   position: absolute;
@@ -89,6 +90,14 @@
 }
 .hero-vignette {
   background: radial-gradient(120% 95% at 50% 38%, transparent 55%, rgba(2, 3, 12, 0.8) 100%);
+}
+.hero-bg::after { /* dissolve the whole hero into the page colour, no seam below */
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 26%;
+  background: linear-gradient(180deg, transparent, var(--bg-0));
+  pointer-events: none;
 }
 
 /* ---- Layout ------------------------------------------------------------ */
@@ -163,8 +172,9 @@
   max-width: 12.5ch;
   font-size: var(--fs-display);
   line-height: var(--lh-tight);
-  font-weight: 780;
-  font-stretch: 112%;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-stretch: normal;
   letter-spacing: var(--track-display);
   color: var(--text-1);
   text-wrap: balance;
@@ -205,7 +215,7 @@
 .stage {
   grid-area: stage;
   position: relative;
-  width: min(100%, 420px);
+  width: min(100%, 378px);
   justify-self: center;
   margin: 36px 0 8px;
 }
@@ -230,9 +240,12 @@
 
 /* Cabinet: one rounded shell with a thin lit rim */
 .tv-cabinet {
+  /* Concentric corners: outer radius = screen radius + cabinet padding */
+  --tv-pad: 3.2cqw;
+  --tv-screen-r: 6cqw;
   position: relative;
-  padding: 3.2cqw 3.2cqw 0;
-  border-radius: clamp(18px, 6cqw, 32px);
+  padding: var(--tv-pad) var(--tv-pad) 0;
+  border-radius: calc(var(--tv-screen-r) + var(--tv-pad));
   background: linear-gradient(170deg, #161D52 0%, #0B1038 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
@@ -255,7 +268,7 @@
 .tv-screen {
   position: relative;
   aspect-ratio: 5 / 4;
-  border-radius: 8% / 10%;
+  border-radius: var(--tv-screen-r);
   overflow: hidden;
   isolation: isolate;
   background: #0B1226;
@@ -402,23 +415,11 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 16px;
   margin-top: clamp(32px, 5vh, 56px);
   padding-block: 18px 22px;
 }
-.hero-readout::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: var(--gutter); right: var(--gutter);
-  height: 1px;
-  background: linear-gradient(90deg, var(--line-2), transparent 80%);
-}
-.readout-list { display: flex; gap: clamp(20px, 4vw, 56px); margin: 0; }
-.readout-list > div { display: flex; align-items: baseline; gap: 10px; }
-.readout-list dt { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
-.readout-list dd { margin: 0; font-family: var(--font-tech); font-size: 0.85rem; letter-spacing: 0.08em; color: var(--text-1); }
 .scroll-cue { display: inline-flex; align-items: center; gap: 12px; transition: color var(--dur-fast); }
 .scroll-cue:hover { color: var(--text-1); }
 .scroll-cue i { position: relative; width: 1px; height: 30px; background: var(--line-2); overflow: hidden; }
@@ -435,26 +436,26 @@
 
 /* ---- Breakpoints ------------------------------------------------------- */
 @media (min-width: 640px) {
-  .stage { width: min(100%, 460px); }
+  .stage { width: min(100%, 414px); }
 }
 @media (min-width: 1080px) {
   .hero-inner {
     grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
     grid-template-rows: 1fr auto auto auto auto 1fr;
     grid-template-areas:
-      ".       stage"
+      ".       ."
       "eyebrow stage"
       "title   stage"
       "sub     stage"
       "cta     stage"
-      ".       stage";
+      ".       .";
     column-gap: clamp(32px, 4vw, 72px);
+    padding-bottom: clamp(24px, 8svh, 96px);  /* lifts the stage and its tabs off the horizon */
   }
   .stage {
-    width: min(100%, 540px, calc(100svh - 330px));
-    min-width: 340px;
+    width: min(100%, 486px, calc((100svh - 330px) * 0.9));
     justify-self: end;
-    align-self: center;
+    align-self: end;            /* tabs line up with the CTAs; hero.js sizes it to the copy */
     margin: 0;
   }
   .hero-floor { height: 21%; }
@@ -469,8 +470,7 @@
   .hero-ctas .btn { flex: 1 1 100%; }
   .hero-readout { flex-wrap: wrap; }
   .scroll-cue { display: none; }
-  .readout-list { width: 100%; justify-content: space-between; }
-  .stage { width: min(88%, 330px); margin-top: 40px; }
+  .stage { width: min(80%, 297px); margin-top: 40px; }
   .stage-tabs { flex-wrap: nowrap; gap: 2px; margin-inline: -24px; }
   .stage-tab { width: 40px; height: 40px; }
   .stage-pause { margin-left: 4px; }
