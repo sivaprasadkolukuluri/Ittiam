@@ -371,7 +371,7 @@
   text-transform: uppercase;
   color: var(--accent-ink);
 }
-.stage-tag { font-size: var(--fs-sm); color: var(--text-2); }
+.stage-tag { font-size: var(--fs-sm); color: var(--text-3); }
 
 .stage-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; margin-top: 14px; }
 .stage-tab {

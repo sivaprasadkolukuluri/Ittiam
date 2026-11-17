@@ -48,9 +48,10 @@
   --line-2: rgba(150, 165, 255, 0.20);
   --line-3: rgba(150, 165, 255, 0.34);
 
-  --text-1: #F4F2FF;        /* headings */
-  --text-2: #C1C5E4;        /* body */
-  --text-3: #8C93BF;        /* meta, captions (6:1 on bg-1) */
+  /* Three text levels */
+  --text-1: #F4F2FF;        /* 1. headings, key numbers, active states */
+  --text-2: #A4A9C8;        /* 2. body copy (8.4:1 on bg-1) */
+  --text-3: #7B81A3;        /* 3. captions, labels, meta (5.1:1 on bg-1) */
 
   /* ---- Typography ----------------------------------------------------- */
   --font-heading: "Sora", "Archivo", "Helvetica Neue", Arial, sans-serif;

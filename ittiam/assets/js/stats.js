@@ -1,18 +1,13 @@
-/* Stats: count the numbers up when they scroll into view, and only run the
-   icon animations while the section is on screen (frozen for reduced motion). */
+/* Stats: count the numbers up the first time they scroll into view. */
 (() => {
   'use strict';
   const section = document.querySelector('.stats');
   if (!section) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const icons = [...section.querySelectorAll('svg.stat-icon')];
   const counters = [...section.querySelectorAll('[data-count]')];
 
-  if (reduceMotion) {
-    icons.forEach((s) => { s.setCurrentTime?.(1.5); s.pauseAnimations?.(); });
-    return;
-  }
+  if (reduceMotion) return;
 
   // Start from zero; the final value is already in the markup for no-JS readers
   counters.forEach((el) => { el.dataset.final = el.textContent; el.textContent = '0' + (el.dataset.suffix || ''); });
@@ -33,7 +28,6 @@
 
   let counted = false;
   new IntersectionObserver(([entry]) => {
-    icons.forEach((s) => (entry.isIntersecting ? s.unpauseAnimations?.() : s.pauseAnimations?.()));
     if (entry.isIntersecting && !counted) { counted = true; counters.forEach(countUp); }
   }, { threshold: 0.35 }).observe(section);
 })();
