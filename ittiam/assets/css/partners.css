@@ -4,7 +4,7 @@
    ========================================================================== */
 .partners {
   position: relative;
-  padding-block: clamp(36px, 6vw, 64px);
+  padding-block: clamp(4px, 1vw, 12px) clamp(36px, 6vw, 64px);  /* sits close under the hero grid */
   /* sits on the page colour the hero fades into */
 }
 .partners-label {

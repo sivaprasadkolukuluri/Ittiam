@@ -449,7 +449,6 @@
       "cta     stage"
       ".       .";
     column-gap: clamp(32px, 4vw, 72px);
-    padding-bottom: clamp(24px, 8svh, 96px);  /* lifts the stage and its tabs off the horizon */
   }
   .stage {
     width: min(100%, 486px, calc((100svh - 330px) * 0.9));
@@ -457,8 +456,12 @@
     align-self: end;            /* tabs line up with the CTAs; hero.js sizes it to the copy */
     margin: 0;
   }
-  .hero-floor { height: 21%; }
-  .hero-horizon { bottom: 21%; }
+  /* Copy + TV are centred in the space below the nav; hero.js lowers the
+     horizon (--floor-shift) just enough to keep it clear of the buttons. */
+  .hero { padding-top: var(--header-h); }
+  .hero-readout { position: absolute; left: 0; right: 0; bottom: 0; margin-top: 0; }
+  .hero-floor { height: calc(21% - var(--floor-shift, 0px)); }
+  .hero-horizon { bottom: calc(21% - var(--floor-shift, 0px)); }
 }
 @media (max-width: 1079px) {
   .hero-title { max-width: 13ch; }

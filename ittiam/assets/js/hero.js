@@ -271,8 +271,18 @@
     const overhang = Math.max(0, -(hudEl.offsetTop + hudLabel.offsetTop - 1.4 * hudLabel.offsetHeight));
     return stageEl.offsetHeight + overhang;
   };
+  // Horizon sits at 79% of the hero by default; lower it only as far as needed
+  // to leave a clear gap under the buttons (and the TV tabs, which share that line).
+  const HORIZON_GAP = 40;
+  function placeFloor() {
+    if (!desktop.matches) { hero.style.removeProperty('--floor-shift'); return; }
+    const h = hero.offsetHeight;
+    const copyBottom = ctasEl.offsetTop + ctasEl.offsetHeight;
+    const shift = copyBottom + HORIZON_GAP - h * 0.79;
+    hero.style.setProperty('--floor-shift', Math.round(Math.min(Math.max(shift, 0), h * 0.13)) + 'px');
+  }
   function fitStage() {
-    if (!desktop.matches) { stageEl.style.width = ''; return; }
+    if (!desktop.matches) { stageEl.style.width = ''; placeFloor(); return; }
     const setW = (w) => { stageEl.style.width = Math.round(Math.min(Math.max(w, 260), 560)) + 'px'; };
     setW(200);  // small, so the stage can't stretch the copy's rows while we measure
     const target = (ctasEl.offsetTop + ctasEl.offsetHeight) - eyebrowEl.offsetTop;
@@ -284,6 +294,7 @@
     // One correction pass (the caption can rewrap at a new width)
     w += (target - stageExtent()) / slope;
     setW(w);
+    placeFloor();
   }
   let fitRaf;
   const queueFit = () => { cancelAnimationFrame(fitRaf); fitRaf = requestAnimationFrame(fitStage); };
