@@ -112,7 +112,7 @@
       const hits = g.links.filter(l => !query || (l.label + ' ' + l.desc + ' ' + g.name).toLowerCase().includes(query));
       if (!hits.length) return;
       count += hits.length;
-      html += `<p class="search-group-label label-mono">${esc(g.name)}</p>`;
+      html += `<p class="search-group-label label-meta">${esc(g.name)}</p>`;
       html += hits.map(l => `
         <a class="search-result" role="listitem" href="${esc(l.href)}" style="${esc(l.style)}">
           <span class="dot" aria-hidden="true"></span>

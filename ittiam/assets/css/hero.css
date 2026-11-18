@@ -174,7 +174,6 @@
   line-height: var(--lh-tight);
   font-family: var(--font-heading);
   font-weight: 700;
-  font-stretch: normal;
   letter-spacing: var(--track-display);
   color: var(--text-1);
   text-wrap: balance;
@@ -197,7 +196,7 @@
 /* ---- Sub + CTAs -------------------------------------------------------- */
 .hero-sub {
   grid-area: sub;
-  max-width: 54ch;
+  max-width: 46ch;  /* Sora runs wider than Archivo did; keeps ~65 characters a line */
   margin-top: clamp(18px, 3vh, 32px);
   font-size: var(--fs-lead);
   line-height: 1.62;

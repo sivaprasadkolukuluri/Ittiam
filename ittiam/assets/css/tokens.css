@@ -54,10 +54,12 @@
   --text-3: #7B81A3;        /* 3. captions, labels, meta (5.1:1 on bg-1) */
 
   /* ---- Typography ----------------------------------------------------- */
-  --font-heading: "Sora", "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;  /* variable width + weight */
-  --font-tech: "Michroma", "Eurostile", "Archivo", sans-serif;     /* wide, era-correct labels */
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  /* Two typefaces: Sora for everything you read, Michroma for retro tech labels */
+  --font-sans: "Sora", "Helvetica Neue", Arial, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+  --font-tech: "Michroma", "Eurostile", sans-serif;     /* wide, era-correct labels */
+  --font-label: var(--font-heading);  /* small caps labels and readouts: Sora, tracked out */
 
   /* Fluid type scale (min @ 360px → max @ 1440px) */
   --fs-display: clamp(2.6rem, 1.15rem + 4.4vw, 5.1rem);
@@ -68,7 +70,7 @@
   --fs-body: 1rem;
   --fs-sm: 0.875rem;
   --fs-xs: 0.75rem;
-  --fs-label: 0.6875rem;    /* 11px: mono / tech labels */
+  --fs-label: 0.6875rem;    /* 11px: small labels and readouts */
 
   --lh-tight: 0.98;
   --lh-snug: 1.2;
